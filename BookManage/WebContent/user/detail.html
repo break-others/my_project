@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="css/bootstrap.css" />
+
+		<!--需要引入JQuery-->
+		<script src="js/jquery-1.11.0.js"></script>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<script src="js/bootstrap-table.js"></script>
+		<link rel="stylesheet" href="js/bootstrap-table.css" />
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="js/bootstrap.js"></script>
+
+		
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!--
+			引入bootstrap相关的头文件
+			1. div布局容器  class = " container"
+			2. 放8行 row 
+		-->
+	<script>
+	$(function(){
+		var str= window.location.search;
+		var id = str.split("=")[1];
+			$.ajax({
+				type:'post',
+				url:"../user/product",
+				data: "op=cha&id="+id,
+				dataType:"json",
+				success:function(obj){	
+					var prolist = obj.data;
+					$("#pp").html("");
+					for(var i in prolist){
+							var pro=prolist[i];
+							var pimg = pro.pimg;
+							var pname = pro.pname;
+							var price = pro.price;
+							var $pro = $("<img src='../../upfile/"+pimg+"' style='margin-left: 10px;'>");
+							var $pr=$("<h1>商品介绍</h1><h4>商品名称： "+pname+"</h4><h4>商品价格：￥ "+price+"</h4>");
+						$("#section2").append($pr);
+						$("#pp").append($pro);
+				   }
+					
+					
+				}
+				
+			});
+		 
+	
+					   $("#gouwu").click(function(){
+						   var str= window.location.search;
+							var id = str.split("=")[1];
+							
+						   $.post({
+								url:"../user/product",
+								data:"op=gouwu&productid="+id ,
+								dataType:"json",
+								success:function(data){	
+									var code = data.code;
+									if(code=='200'){
+										confirm("添加成功");
+										location.href = "chart.html";
+									}
+								}
+								
+							});
+						});
+				  
+			
+	});
+
+		
+	</script>
+	</head>
+
+	<body>
+		<!--最外层的布局容器-->
+		<div class="container">
+			<!--LOGO部分-->
+			<div class="row">
+				<!--<div class="col-md-4 col-sm-6 col-xs-6">
+					<img src="img/back.jpg" style="height: 6rem;"/>
+				</div>-->
+				<div class="col-md-4 hidden-sm hidden-xs">
+					<img src="img/back.jpg" style="height: 6rem; width: 1140px;" />
+				</div>
+				
+			</div>
+
+			
+			
+			
+			<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<nav class="navbar  navbar-dark fixed-top"id="navbar-example2">  
+  <a class="navbar-brand"href="index.html"><
+</a>
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link" href="#section1">宝贝预览</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#section2">商品介绍</a>
+    </li>
+  </ul>
+</nav>
+<div id="section1" class="container-fluid bg-light" style="padding-top:10px;padding-bottom:10px">
+  <h1>宝贝预览</h1>
+  <p id="pp"><img src="img/11.jpg" style="margin-left: 10px;"></p>
+</div>
+<div id="section2" class="container-fluid bg-light" style="padding-top:10px;padding-bottom:10px">
+</div>
+<button type="button" id="gouwu" class="btn btn-danger">加入购物车</button>
+    </body>
+</html>
+			
+			<!-- footer -->
+			<!--<div class="row">
+				<div class="col-md-12">
+					<img src="img/11.jpg" width="100%"/>
+				</div>
+			</div>-->
+			
+			
+			<div style="text-align: center;">
+				        
+					<a href="#">关于我们</a>
+					<a href="#">联系我们</a>
+					<a href="#">招贤纳士</a>
+					<a href="#">法律声明</a>
+					<a href="#">友情链接</a>
+					<a href="#">支付方式</a>
+					<a href="#">配送方式</a>
+					<a href="#">服务声明</a>
+					<a href="#">广告声明</a>
+					
+					<br />
+					
+					Copyright © 2005-2020老徐商城 版权所有
+			</div>
+			
+		</div>
+	</body>
+
+</html>

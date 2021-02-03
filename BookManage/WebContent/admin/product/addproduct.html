@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="../js/css/layui.css">
+	<script type="text/javascript" src="../js/layui.js"></script>
+	
+	<script type="text/javascript">
+	$(function(){
+		$.post({
+			"url":"../../data" ,
+			"data":"op=one",
+			"dataType":"json",
+			"success":function(data){
+				for(i in data ){
+					var type=data[i];
+					var n=type.title;
+					var $op=$("<option value='"+type.id+"'>"+n+"</option>");
+					$("#province").append($op);
+				}
+			}
+			
+		});
+	})
+	
+	function getPro(o){
+			$.post({
+				"url":"../../data" ,
+				"data":"op=two&father="+o.value+"",
+				"dataType":"json",
+				"success":function(data){
+					$("#city").html("<option>--请选择二级标题--</option>");
+					for(i in data ){
+						var type=data[i];
+						var n=type.title;
+						var $op=$("<option value='"+type.id+"'>"+n+"</option>");
+						$("#city").append($op);
+					}
+				}
+				
+			});
+		}
+	
+	function getFa(o){
+		$.post({
+			"url":"../../data" ,
+			"data":"op=three&father="+o.value+"",
+			"dataType":"json",
+			"success":function(data){
+				$("#area").html("<option>--请选择三级标题--</option>");
+				for(i in data ){
+					var type=data[i];
+					var n=type.title;
+					var $op=$("<option value='"+type.id+"'>"+n+"</option>");
+					$("#area").append($op);
+				}
+			}
+			
+		});
+	}
+
+	
+	$(function(){
+		$("#but").click(function(){
+			$.post({
+				url:"../../user/product?op=ad",
+				dataType:"json",
+				success:function(o){	
+						if(o.code==200){
+							location.href = "productlist.html";
+						}
+						
+					}
+				
+			});
+		
+		});
+	});
+	</script>
+</head>
+<body>
+	 <form action="../../user/product" method="post" id="addform" enctype="multipart/form-data">
+		<input type="hidden" name="op" value="add">
+		<input id="upimges" type="hidden"  >
+		<table>
+			<tr>
+				<td>产品名称</td>
+				<td><input type="text" name="pname"></td>
+			</tr>
+			<tr>
+				<td>请提交图片:</td>
+				<td><input id="nfile" type="file" name="imgs"  onchange="shows()">
+				    <img id="show" alt="" src=""  width="60" height="60"  >	
+			   </td>
+			</tr>
+			<tr>
+				<td>产品价格</td>
+				<td><input type="text" name="price"></td>
+			</tr>
+			
+			<tr>
+				<td>产品标题</td>
+				<td><input type="text" name="ptitle"></td>
+			</tr>
+			<tr>
+				<td>浏览次数</td>
+				<td><input type="text" name="pv"></td>
+			</tr>
+			<tr>
+				<td>三级标题</td>
+				<td><select id="province" onchange="getPro(this)">
+					<option>---请选择一级标题 ---</option>
+				</select>
+				<select id="city" onchange="getFa(this)">
+					<option>---请选择二级标题 ---</option>
+				</select>
+				<select  name="title" id="area">
+					<option >---请选择三级标题 ---</option>
+				</select>
+				</td>
+			</tr>
+			<tr>
+				<td><input id="but" type="submit"></td>
+				<td><input type="reset"></td>
+			</tr>
+		</table>
+		
+		<script type="text/javascript">
+
+		function shows() {
+			
+			  var r = new FileReader();
+			  var f = document.getElementById("nfile").files[0];
+			  r.readAsDataURL(f);
+			  r.onload=function (e) {
+			   document.getElementById("show").src=this.result;
+			  };
+			 }
+		</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="../js/css/layui.css">
+		<script type="text/javascript" src="../js/layui.js"></script>
+		<script type="text/javascript">
+
+function upimgs(){
+	var formdata=new FormData();
+	formdata.append('formFile',$("#uploadImgs")[0].files[0]); 
+	$.ajax({
+		type:"post",
+		url:"../../up",
+		data: formdata,
+		contentType: false,
+        processData: false,
+		dataType:"text",
+		success:function(data){	
+			
+			$("img").attr("src","../../../upfile/"+data);
+			
+			$("#upimges").val(data);
+		}
+		
+	});
+}
+
+</script>
+	</head>
+	<body>
+<form action="querycarousel.html" method="post"  enctype="multipart/form-data">
+		<input id="upimges" type="hidden"  >
+		<table>
+				<td>请提交图片:</td>
+				<td><input id="uploadImgs" type="file"  onchange="upimgs()">
+				    <img  alt="请选择图片" width="40" height="40" >	
+			   </td>
+			</tr>
+			<tr>
+				<td><input id="add" type="submit" ></td>
+			</tr>
+		</table>
+	</form>
+	</body>
+</html>
